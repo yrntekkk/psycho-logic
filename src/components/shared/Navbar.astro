@@ -1,0 +1,25 @@
+---
+// src/components/shared/Navbar.astro
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300">
+  <!-- Fondo Glassmorfismo -->
+  <div class="absolute inset-0 bg-background/60 backdrop-blur-md border-b border-white/20 var(--shadow-glass)"></div>
+  
+  <div class="container mx-auto px-6 h-20 relative flex items-center justify-between max-w-7xl">
+    <!-- Logo o Nombre -->
+    <a href="/" class="text-xl font-semibold tracking-tight text-foreground transition-colors hover:text-primary">
+      <span class="text-primary">psycho</span>logic.
+    </a>
+
+    <!-- Botón CTA -->
+    <nav>
+      <a 
+        href="#agendar" 
+        class="inline-flex items-center justify-center px-6 py-2.5 text-sm font-medium transition-all duration-200 rounded-2xl bg-primary text-primary-foreground hover:bg-primary-hover shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+      >
+        Agendar Hora
+      </a>
+    </nav>
+  </div>
+</header>
