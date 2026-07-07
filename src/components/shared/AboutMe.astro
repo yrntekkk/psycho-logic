@@ -1,0 +1,32 @@
+---
+// src/components/shared/AboutMe.astro
+---
+<section id="sobre-mi" class="py-24 bg-sage-50 relative overflow-hidden">
+  <div class="container mx-auto px-6 max-w-6xl">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <!-- Image/Visual -->
+      <div class="relative h-[600px] w-full rounded-3xl overflow-hidden shadow-xl">
+        <div class="absolute inset-0 bg-primary/20 mix-blend-multiply"></div>
+        <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=1000&auto=format&fit=crop" alt="Psicóloga clínica en sesión" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" />
+        <div class="absolute bottom-6 left-6 right-6 bg-white/80 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-white/50">
+          <p class="text-xl font-medium text-zinc-800 italic">"No tienes que caminar este proceso en soledad."</p>
+        </div>
+      </div>
+      <!-- Content -->
+      <div class="flex flex-col items-start">
+        <span class="text-primary font-semibold tracking-wider uppercase text-sm mb-4">Conoce a tu terapeuta</span>
+        <h2 class="text-4xl lg:text-5xl font-semibold text-foreground mb-8 leading-tight">Empatía, ciencia y un espacio seguro para ti.</h2>
+        <div class="space-y-6 text-lg text-zinc-600 font-light leading-relaxed">
+          <p>Hola, soy <span class="font-medium text-zinc-800">[Tu Nombre]</span>, Psicóloga Clínica especialista en psicoterapia basada en la evidencia. Mi vocación es acompañarte a desenredar esos nudos emocionales que no te dejan avanzar.</p>
+          <p>Entiendo que dar el primer paso es difícil. Por eso he diseñado este espacio digital para que sea tu refugio: un lugar sin juicios, 100% confidencial y desde la comodidad y seguridad de tu hogar.</p>
+          <p>Trabajaremos juntos, a tu ritmo, combinando empatía humana con herramientas terapéuticas de última generación para recuperar tu tranquilidad y calidad de vida.</p>
+        </div>
+        <!-- Signature Placeholder -->
+        <div class="mt-10">
+          <p class="font-['Georgia',serif] italic text-3xl text-zinc-800">[Firma]</p>
+          <p class="text-sm text-zinc-500 mt-2">Psicóloga Clínica, Mg. en Psicoterapia</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
