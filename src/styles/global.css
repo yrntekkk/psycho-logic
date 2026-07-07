@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+@theme {
+  /* Fondos cálidos y textos suaves */
+  --color-background: #FAFAFA; /* Equivalente a un zinc-50/hueso */
+  --color-foreground: #27272A; /* zinc-800, más suave que el negro puro */
+  
+  /* Acentos calmos (Sage / Emerald suave) */
+  --color-primary: #10B981; /* Verde esmeralda que da confianza */
+  --color-primary-foreground: #FFFFFF;
+  --color-primary-hover: #059669;
+  
+  --color-sage-50: #F4F7F5;
+  --color-sage-100: #E6EFE9;
+  --color-sage-200: #CDE0D5;
+
+  /* Bordes suaves */
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
+
+  /* Clases personalizadas para el Glassmorfismo */
+  --background-image-glass-gradient: linear-gradient(to bottom right, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1));
+  --shadow-glass: 0 4px 30px rgba(0, 0, 0, 0.05);
+}
+
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+}
