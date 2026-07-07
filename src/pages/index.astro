@@ -1,11 +1,24 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/shared/Navbar.astro';
+import Hero from '../components/shared/Hero.astro';
+import TrustBanner from '../components/shared/TrustBanner.astro';
+import AboutMe from '../components/shared/AboutMe.astro';
+import HowItWorks from '../components/shared/HowItWorks.astro';
+import BentoSpecialties from '../components/shared/BentoSpecialties.astro';
+import FAQ from '../components/shared/FAQ.astro';
+import Footer from '../components/shared/Footer.astro';
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout title="Psycho-logic | Atención Psicológica Online">
+	<Navbar />
+	<main>
+		<Hero />
+		<TrustBanner />
+		<AboutMe />
+		<HowItWorks />
+		<BentoSpecialties />
+		<FAQ />
+	</main>
+	<Footer />
+</BaseLayout>
