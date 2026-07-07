@@ -1,0 +1,44 @@
+---
+// src/components/shared/HowItWorks.astro
+---
+<section class="py-24 bg-white relative">
+  <div class="container mx-auto px-6 max-w-5xl">
+    <div class="text-center mb-16">
+      <span class="text-primary font-semibold tracking-wider uppercase text-sm mb-4 block">Metodología</span>
+      <h2 class="text-4xl font-semibold text-foreground">Tu bienestar en 3 simples pasos</h2>
+      <p class="text-zinc-500 mt-4 max-w-2xl mx-auto text-lg font-light">Hemos simplificado el proceso para que enfocarte en tu salud mental sea fácil y sin fricciones.</p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+      <!-- Line connecting steps (desktop) -->
+      <div class="hidden md:block absolute top-12 left-[15%] right-[15%] h-0.5 bg-zinc-100 -z-10"></div>
+      
+      <!-- Step 1 -->
+      <div class="flex flex-col items-center text-center group">
+        <div class="w-24 h-24 rounded-full bg-sage-50 flex items-center justify-center mb-6 shadow-sm border-4 border-white group-hover:scale-110 transition-transform duration-300">
+          <svg class="w-10 h-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        </div>
+        <h3 class="text-xl font-semibold text-zinc-800 mb-3">1. Elige tu horario</h3>
+        <p class="text-zinc-600 font-light px-4">Selecciona el día y la hora que mejor se adapte a tu rutina desde nuestra agenda inteligente online.</p>
+      </div>
+      
+      <!-- Step 2 -->
+      <div class="flex flex-col items-center text-center group">
+        <div class="w-24 h-24 rounded-full bg-sage-50 flex items-center justify-center mb-6 shadow-sm border-4 border-white group-hover:scale-110 transition-transform duration-300">
+          <svg class="w-10 h-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+        </div>
+        <h3 class="text-xl font-semibold text-zinc-800 mb-3">2. Conéctate seguro</h3>
+        <p class="text-zinc-600 font-light px-4">Recibirás un enlace único y encriptado para tu videollamada. 100% privado y confidencial.</p>
+      </div>
+      
+      <!-- Step 3 -->
+      <div class="flex flex-col items-center text-center group">
+        <div class="w-24 h-24 rounded-full bg-sage-50 flex items-center justify-center mb-6 shadow-sm border-4 border-white group-hover:scale-110 transition-transform duration-300">
+          <svg class="w-10 h-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+        </div>
+        <h3 class="text-xl font-semibold text-zinc-800 mb-3">3. Sana y avanza</h3>
+        <p class="text-zinc-600 font-light px-4">Comenzamos el trabajo terapéutico. A tu ritmo, con apoyo constante y herramientas prácticas.</p>
+      </div>
+    </div>
+  </div>
+</section>
