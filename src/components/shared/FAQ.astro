@@ -1,0 +1,46 @@
+---
+// src/components/shared/FAQ.astro
+const faqs = [
+  {
+    q: "¿Cómo funcionan las sesiones online?",
+    a: "Las sesiones se realizan por videollamada a través de un enlace seguro y encriptado que recibirás por correo antes de tu cita. Tienen la misma eficacia clínica que la terapia presencial, sumando la comodidad de estar en tu propio espacio."
+  },
+  {
+    q: "¿Cuánto dura cada sesión y con qué frecuencia nos vemos?",
+    a: "Cada sesión tiene una duración de 50 minutos. Inicialmente, se recomienda una frecuencia semanal para establecer un buen ritmo de trabajo, la cual se irá espaciando conforme vayas logrando tus objetivos."
+  },
+  {
+    q: "¿Qué métodos de pago aceptan?",
+    a: "Aceptamos transferencias bancarias, tarjetas de crédito/débito y pagos internacionales vía PayPal o Stripe. El pago se realiza al momento de agendar para confirmar tu hora."
+  },
+  {
+    q: "¿Emiten boleta para reembolso en Isapres/Seguros?",
+    a: "Sí, emitimos boleta de honorarios electrónica válida para reembolsos en Isapres y seguros complementarios de salud."
+  }
+];
+---
+<section id="faq" class="py-24 bg-sage-50">
+  <div class="container mx-auto px-6 max-w-3xl">
+    <div class="text-center mb-12">
+      <span class="text-primary font-semibold tracking-wider uppercase text-sm mb-4 block">Resolviendo dudas</span>
+      <h2 class="text-3xl font-semibold text-foreground mb-4">Preguntas Frecuentes</h2>
+      <p class="text-zinc-500 font-light text-lg">Todo lo que necesitas saber antes de dar el primer paso.</p>
+    </div>
+    
+    <div class="space-y-4">
+      {faqs.map((faq) => (
+        <details class="group bg-white rounded-2xl border border-zinc-100 shadow-sm overflow-hidden [&_summary::-webkit-details-marker]:hidden transition-all hover:shadow-md">
+          <summary class="flex cursor-pointer items-center justify-between p-6 font-medium text-zinc-800 transition-colors group-hover:text-primary">
+            <span class="text-lg">{faq.q}</span>
+            <span class="transition-transform duration-300 group-open:-rotate-180 text-primary">
+              <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+            </span>
+          </summary>
+          <div class="px-6 pb-6 text-zinc-600 font-light leading-relaxed">
+            <p>{faq.a}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
