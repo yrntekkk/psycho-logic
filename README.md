@@ -53,3 +53,12 @@ GOOGLE_CLIENT_EMAIL=tu-service-account@tu-proyecto.iam.gserviceaccount.com
 GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nTU_LLAVE_AQUI\n-----END PRIVATE KEY-----\n"
 
 🛠️ Despliegue LocalClona el repo, instala las dependencias y levanta el servidor:ComandoAcciónnpm installInstala los paquetes (incluyendo googleapis).npm run devLevanta el servidor de desarrollo en localhost:4321.npm run buildCompila el proyecto para subirlo a producción (Vercel/Netlify).
+
+⚙️ Flujo del Sistema (Cómo funciona)
+Captura (UI): El paciente selecciona fecha/bloque e ingresa sus datos. Todo se maneja en el estado reactivo del cliente.
+
+Creación de Orden: El backend de Astro (/api/crear-pago) recibe los datos, firma la petición con HMAC-SHA256 y obtiene un token de Flow.
+
+Transacción: El paciente es redirigido a la pasarela segura de Webpay/Flow.
+
+Confirmación y Sincronización: Si el pago es exitoso (/api/confirmar), el servidor valida el estado 2 (Pagado) con Flow y dispara la API de Google para inyectar el evento en la agenda primaria, generando un enlace de hangoutsMeet automático.
