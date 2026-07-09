@@ -26,7 +26,7 @@ export const POST: APIRoute = async ({ request }) => {
       amount: '18000',
       email: email,
       urlConfirmation: `${PUBLIC_SITE_URL}/api/confirmar`,
-      urlReturn: `${PUBLIC_SITE_URL}/reserva-exitosa`,
+      urlReturn: `${PUBLIC_SITE_URL}/api/retorno`,
       optional: optionalData,
     });
 
