@@ -10,13 +10,13 @@
 
 ---
 
-> Esta plataforma web fue construida desde cero para gestionar reservas de consultas psicológicas con un flujo de usuario impecable. Integra pagos directos vía Webpay y automatiza la creación de citas y enlaces de videollamada sin intervención manual. 🚀
+> **No más iframes genéricos ni mensualidades.** Esta plataforma web fue construida desde cero para gestionar reservas de consultas psicológicas con un flujo de usuario impecable. Integra pagos directos vía Webpay y automatiza la creación de citas y enlaces de videollamada sin intervención manual. 🚀
 
 ## ⚡ Arquitectura y Tech Stack
 
-*   🌌 **Frontend SSR:** Construido con [Astro](https://astro.build/) para máxima velocidad.
+*   🌌 **Frontend SSR:** Construido con Astro para máxima velocidad.
 *   🎨 **UI/UX:** Diseño interactivo con *Glassmorphism* usando Tailwind CSS.
-*   💸 **Pasarela de Pagos:** Integración nativa con la API REST de [Flow.cl](https://www.flow.cl).
+*   💸 **Pasarela de Pagos:** Integración nativa con la API REST de Flow.cl.
 *   📅 **Automatización Core:** Google Calendar API (vía Service Account) para agendamiento y creación de Google Meet.
 
 ## 📁 Estructura del Código
@@ -27,38 +27,46 @@
 │   └── favicon.svg
 ├── src/
 │   ├── components/
-│   │   └── BookingCalendar.astro   # UI del calendario y lógica de estado del paciente
+│   │   └── BookingCalendar.astro   # UI del calendario y lógica de estado
 │   ├── layouts/
 │   │   └── Layout.astro            # Wrapper global
 │   └── pages/
 │       ├── agendar.astro           # Vista principal de reservas
 │       └── api/
-│           ├── crear-pago.ts       # POST: Firma de datos y conexión con API Flow
-│           └── confirmar.ts        # GET/POST (Webhook): Validación, G. Calendar y Meet
+│           ├── crear-pago.ts       # POST: Firma de datos y conexión con Flow
+│           └── confirmar.ts        # Webhook: Validación, G. Calendar y Meet
 ├── .env                            # Keys de seguridad (Ignorado en git)
 └── package.json
 ```
 
-🔐 Configuración de Entorno (.env)
-El sistema requiere llaves criptográficas para funcionar. Crea tu archivo .env en la raíz del proyecto:
+## 🔐 Configuración de Entorno (.env)
 
-Fragmento de código
+El sistema requiere llaves criptográficas para funcionar. Crea tu archivo `.env` en la raíz del proyecto. 
+
+```env
 # Integración Flow (Sandbox o Producción)
-FLOW_API_KEY=tu_api_key
-FLOW_SECRET_KEY=tu_secret_key
+FLOW_API_KEY=tu_api_key_aqui
+FLOW_SECRET_KEY=tu_secret_key_aqui
 FLOW_API_URL=[https://sandbox.flow.cl/api](https://sandbox.flow.cl/api)
 
 # Credenciales Google Cloud (Service Account)
 GOOGLE_CLIENT_EMAIL=tu-service-account@tu-proyecto.iam.gserviceaccount.com
 GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nTU_LLAVE_AQUI\n-----END PRIVATE KEY-----\n"
+```
 
-🛠️ Despliegue LocalClona el repo, instala las dependencias y levanta el servidor:ComandoAcciónnpm installInstala los paquetes (incluyendo googleapis).npm run devLevanta el servidor de desarrollo en localhost:4321.npm run buildCompila el proyecto para subirlo a producción (Vercel/Netlify).
+## 🛠️ Despliegue Local
 
-⚙️ Flujo del Sistema (Cómo funciona)
-Captura (UI): El paciente selecciona fecha/bloque e ingresa sus datos. Todo se maneja en el estado reactivo del cliente.
+Clona el repositorio, instala las dependencias y levanta el servidor:
 
-Creación de Orden: El backend de Astro (/api/crear-pago) recibe los datos, firma la petición con HMAC-SHA256 y obtiene un token de Flow.
+| Comando | Acción |
+| :--- | :--- |
+| `npm install` | Instala los paquetes (incluyendo `googleapis`). |
+| `npm run dev` | Levanta el servidor de desarrollo en `localhost:4321`. |
+| `npm run build` | Compila el proyecto para subirlo a producción (Vercel/Netlify). |
 
-Transacción: El paciente es redirigido a la pasarela segura de Webpay/Flow.
+## ⚙️ Flujo del Sistema (Cómo funciona)
 
-Confirmación y Sincronización: Si el pago es exitoso (/api/confirmar), el servidor valida el estado 2 (Pagado) con Flow y dispara la API de Google para inyectar el evento en la agenda primaria, generando un enlace de hangoutsMeet automático.
+1.  **Captura (UI):** El paciente selecciona fecha/bloque e ingresa sus datos. Todo se maneja en el estado reactivo del cliente.
+2.  **Creación de Orden:** El backend de Astro (`/api/crear-pago`) recibe los datos, firma la petición con HMAC-SHA256 y obtiene un token de Flow.
+3.  **Transacción:** El paciente es redirigido a la pasarela segura de Webpay/Flow.
+4.  **Confirmación y Sincronización:** Si el pago es exitoso (`/api/confirmar`), el servidor valida el estado 2 (Pagado) con Flow y dispara la API de Google para inyectar el evento en la agenda primaria, generando un enlace de `hangoutsMeet` automático.
