@@ -65,6 +65,7 @@ export const POST: APIRoute = async ({ request }) => {
       await calendar.events.insert({
         calendarId: GOOGLE_CALENDAR_ID,
         conferenceDataVersion: 1, // Crucial para crear enlace de Google Meet
+        sendUpdates: 'all', // Obliga a Google a enviar el correo al paciente
         requestBody: {
           summary: `Consulta Psicológica - ${name}`,
           description: `Paciente: ${name}\nCorreo: ${email}\nPagado vía Flow.cl (Orden: ${flowData.commerceOrder})`,
