@@ -224,7 +224,7 @@ export default function BookingCalendar() {
               </p>
               <div className="mt-4 pt-4 border-t border-white/50 flex justify-between items-center">
                 <span className="text-sm font-medium text-zinc-500">Valor Consulta</span>
-                <span className="text-lg font-bold text-zinc-800">$30.000 <span className="text-xs text-zinc-500 font-normal">CLP</span></span>
+                <span className="text-lg font-bold text-zinc-800">$18.000 <span className="text-xs text-zinc-500 font-normal">CLP</span></span>
               </div>
             </div>
 

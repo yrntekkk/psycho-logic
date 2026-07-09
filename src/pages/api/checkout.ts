@@ -23,7 +23,7 @@ export const POST: APIRoute = async ({ request }) => {
       commerceOrder: `ORD-${Date.now()}`,
       subject: 'Reserva Sesión Psicológica',
       currency: 'CLP',
-      amount: '30000',
+      amount: '18000',
       email: email,
       urlConfirmation: `${PUBLIC_SITE_URL}/api/confirmar`,
       urlReturn: `${PUBLIC_SITE_URL}/reserva-exitosa`,
