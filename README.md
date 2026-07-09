@@ -1,46 +1,32 @@
-# Astro Starter Kit: Basics
+# 🧠 Psychologic - Sistema de Agendamiento Clínico
 
-```sh
-npm create astro@latest -- --template basics
-```
+Plataforma web personalizada para agendamiento de consultas psicológicas. Construida con Astro, cuenta con un flujo de reserva customizado, integración de pagos con Webpay (vía Flow.cl) y sincronización automatizada con Google Calendar y Google Meet.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## 🚀 Tecnologías Principales
 
-## 🚀 Project Structure
+*   **Framework:** [Astro](https://astro.build)
+*   **Estilos:** Tailwind CSS (Glassmorphism UI)
+*   **Pasarela de Pagos:** API de [Flow.cl](https://www.flow.cl) (Webpay Plus)
+*   **Automatización:** Google Calendar API (Service Account)
 
-Inside of your Astro project, you'll see the following folders and files:
+## 📁 Estructura del Proyecto
+
+Dentro de este proyecto de Astro, encontrarás la siguiente estructura clave:
 
 ```text
 /
 ├── public/
 │   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
+├── src/
+│   ├── components/
+│   │   └── BookingCalendar.astro   # UI del calendario y formulario de paciente
+│   ├── layouts/
+│   │   └── Layout.astro            # Plantilla base y metadatos
+│   └── pages/
+│       ├── index.astro             # Landing page / Home
+│       ├── agendar.astro           # Página principal de reserva
+│       └── api/
+│           ├── crear-pago.ts       # Endpoint POST: Conecta con API Flow Sandbox/Prod
+│           └── confirmar.ts        # Endpoint Webhook: Valida pago y crea evento en G. Calendar
+├── .env                            # Variables de entorno (NO subir a GitHub)
 └── package.json
-```
-
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
