@@ -10,7 +10,7 @@
 
 ---
 
-> **No más iframes genéricos ni mensualidades.** Esta plataforma web fue construida desde cero para gestionar reservas de consultas psicológicas con un flujo de usuario impecable. Integra pagos directos vía Webpay y automatiza la creación de citas y enlaces de videollamada sin intervención manual. 🚀
+> Esta plataforma web fue construida desde cero para gestionar reservas de consultas psicológicas con un flujo de usuario impecable. Integra pagos directos vía Webpay y automatiza la creación de citas y enlaces de videollamada sin intervención manual. 🚀
 
 ## ⚡ Arquitectura y Tech Stack
 
@@ -20,8 +20,6 @@
 *   📅 **Automatización Core:** Google Calendar API (vía Service Account) para agendamiento y creación de Google Meet.
 
 ## 📁 Estructura del Código
-
-La magia ocurre en estos directorios principales:
 
 ```text
 /
