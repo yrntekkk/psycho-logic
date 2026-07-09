@@ -1,30 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Calendar as CalendarIcon, Clock, User, Mail, ChevronRight } from 'lucide-react';
 
-// Generar próximos días hábiles
-const getNextWorkingDays = (daysToGenerate: number = 7) => {
-  const days = [];
-  let currentDate = new Date();
-  while (days.length < daysToGenerate) {
-    currentDate.setDate(currentDate.getDate() + 1);
-    const dayOfWeek = currentDate.getDay();
-    if (dayOfWeek !== 0 && dayOfWeek !== 6) { // Lunes a Viernes
-      days.push(new Date(currentDate));
-    }
-  }
-  return days;
-};
-
 const TIME_SLOTS = ["09:00", "10:00", "11:00", "12:00", "14:00", "15:00", "16:00", "17:00"];
+const WEEKDAYS = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
 
 export default function BookingCalendar() {
+  const [currentMonth, setCurrentMonth] = useState(() => {
+    const today = new Date();
+    return new Date(today.getFullYear(), today.getMonth(), 1);
+  });
+  
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const availableDays = React.useMemo(() => getNextWorkingDays(10), []);
+  // Asegurar que si el mes real cambia, el componente se actualice
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const today = new Date();
+      const newMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+      if (newMonth.getTime() !== currentMonth.getTime()) {
+        setCurrentMonth(newMonth);
+      }
+    }, 1000 * 60 * 60); // Revisar cada hora
+    return () => clearInterval(interval);
+  }, [currentMonth]);
+
+  // Obtener días del mes actual
+  const getDaysInMonth = (monthDate: Date) => {
+    const year = monthDate.getFullYear();
+    const month = monthDate.getMonth();
+    const days = [];
+    const date = new Date(year, month, 1);
+    while (date.getMonth() === month) {
+      days.push(new Date(date));
+      date.setDate(date.getDate() + 1);
+    }
+    return days;
+  };
+
+  const daysInMonth = React.useMemo(() => getDaysInMonth(currentMonth), [currentMonth]);
+  const firstDayOfWeek = daysInMonth[0].getDay(); 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,7 +63,6 @@ export default function BookingCalendar() {
       
       const data = await response.json();
       if (data.url) {
-        // Redirigir a Flow
         window.location.href = data.url;
       } else {
         alert("Error al iniciar el pago: " + (data.error || "Desconocido"));
@@ -69,29 +86,53 @@ export default function BookingCalendar() {
               <CalendarIcon className="w-5 h-5 text-primary" />
               1. Selecciona el Día
             </h3>
-            <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
-              {availableDays.map((date, i) => {
-                const isSelected = selectedDate?.toDateString() === date.toDateString();
-                const dayName = new Intl.DateTimeFormat('es-ES', { weekday: 'short' }).format(date);
-                const dayNum = date.getDate();
-                const monthName = new Intl.DateTimeFormat('es-ES', { month: 'short' }).format(date);
-                
-                return (
-                  <button
-                    key={i}
-                    type="button"
-                    onClick={() => setSelectedDate(date)}
-                    className={`p-3 rounded-2xl border transition-all flex flex-col items-center justify-center hover:-translate-y-0.5
-                      ${isSelected 
-                        ? 'border-primary bg-primary text-white shadow-lg shadow-primary/30' 
-                        : 'border-white/40 bg-white/40 text-zinc-700 hover:bg-white/60 shadow-sm'}`}
-                  >
-                    <span className="text-xs uppercase font-medium opacity-80">{dayName}</span>
-                    <span className="text-xl font-bold my-1">{dayNum}</span>
-                    <span className="text-[10px] uppercase font-semibold">{monthName}</span>
-                  </button>
-                );
-              })}
+            
+            {/* Cabecera del mes (Sin flechas de navegación) */}
+            <div className="mb-4 flex items-center justify-center bg-white/20 p-3 rounded-2xl border border-white/30">
+              <span className="font-semibold text-zinc-800 capitalize text-lg">
+                {new Intl.DateTimeFormat('es-ES', { month: 'long', year: 'numeric' }).format(currentMonth)}
+              </span>
+            </div>
+
+            {/* Grid del Calendario */}
+            <div className="bg-white/30 p-4 rounded-2xl border border-white/40 shadow-inner">
+              <div className="grid grid-cols-7 gap-1 text-center mb-2">
+                {WEEKDAYS.map(day => (
+                  <div key={day} className="text-xs font-bold text-zinc-500 tracking-wide uppercase">{day}</div>
+                ))}
+              </div>
+
+              <div className="grid grid-cols-7 gap-2">
+                {Array.from({ length: firstDayOfWeek }).map((_, i) => (
+                  <div key={`empty-${i}`} />
+                ))}
+                {daysInMonth.map((date, i) => {
+                  const today = new Date();
+                  today.setHours(0,0,0,0);
+                  const isPast = date < today;
+                  const isDisabled = isPast; // Fines de semana YA NO ESTÁN bloqueados
+                  const isSelected = selectedDate?.toDateString() === date.toDateString();
+
+                  return (
+                    <button
+                      key={i}
+                      type="button"
+                      disabled={isDisabled}
+                      onClick={() => {
+                        setSelectedDate(date);
+                        setSelectedTime(null); // Resetear hora al cambiar día
+                      }}
+                      className={`aspect-square flex items-center justify-center rounded-xl text-sm transition-all
+                        ${isDisabled ? 'opacity-40 cursor-not-allowed bg-white/10 text-zinc-400' : 'hover:-translate-y-0.5 shadow-sm'}
+                        ${isSelected 
+                          ? 'bg-primary text-white font-bold shadow-lg shadow-primary/40 scale-105' 
+                          : !isDisabled ? 'bg-white/60 text-zinc-700 hover:bg-white hover:text-primary font-medium' : ''}`}
+                    >
+                      {date.getDate()}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
 
@@ -101,7 +142,7 @@ export default function BookingCalendar() {
                 <Clock className="w-5 h-5 text-primary" />
                 2. Selecciona la Hora
               </h3>
-              <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+              <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
                 {TIME_SLOTS.map((time) => {
                   const isSelected = selectedTime === time;
                   return (
@@ -111,8 +152,8 @@ export default function BookingCalendar() {
                       onClick={() => setSelectedTime(time)}
                       className={`py-3 px-3 rounded-xl border text-sm font-semibold transition-all hover:-translate-y-0.5
                         ${isSelected 
-                          ? 'border-primary bg-primary text-white shadow-lg shadow-primary/30' 
-                          : 'border-white/40 bg-white/40 text-zinc-700 hover:bg-white/60 shadow-sm'}`}
+                          ? 'border-primary bg-primary text-white shadow-lg shadow-primary/30 scale-105' 
+                          : 'border-white/50 bg-white/50 text-zinc-700 hover:bg-white/80 shadow-sm'}`}
                     >
                       {time}
                     </button>
