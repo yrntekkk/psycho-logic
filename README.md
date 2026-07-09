@@ -15,9 +15,11 @@
 <img width="1853" height="969" alt="image" src="https://github.com/user-attachments/assets/15dff421-ceae-4c13-bc9e-bc2fd3997e02" />
 
 <br />
+  <br />
 
-  [![Vercel](https://img.shields.io/badge/🔴_VER_DEMO_EN_VIVO_EN_VERCEL-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://TU-LINK-REAL-DE-VERCEL.vercel.app)
+  [![Vercel](https://img.shields.io/badge/🔴_VER_DEMO_EN_VERCEL-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://TU-LINK-REAL-DE-VERCEL.vercel.app)
 
+  <br />
   <br />
 
 ## Arquitectura y Tech Stack
