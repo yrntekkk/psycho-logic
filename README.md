@@ -37,3 +37,15 @@
 │           └── confirmar.ts        # GET/POST (Webhook): Validación, G. Calendar y Meet
 ├── .env                            # Keys de seguridad (Ignorado en git)
 └── package.json
+🔐 Configuración de Entorno (.env)
+El sistema requiere llaves criptográficas para funcionar. Crea tu archivo .env en la raíz del proyecto:
+
+Fragmento de código
+# Integración Flow (Sandbox o Producción)
+FLOW_API_KEY=tu_api_key
+FLOW_SECRET_KEY=tu_secret_key
+FLOW_API_URL=[https://sandbox.flow.cl/api](https://sandbox.flow.cl/api)
+
+# Credenciales Google Cloud (Service Account)
+GOOGLE_CLIENT_EMAIL=tu-service-account@tu-proyecto.iam.gserviceaccount.com
+GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nTU_LLAVE_AQUI\n-----END PRIVATE KEY-----\n"
