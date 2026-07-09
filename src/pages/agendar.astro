@@ -3,6 +3,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Navbar from "../components/shared/Navbar.astro";
 import Footer from "../components/shared/Footer.astro";
 import BookingCalendar from "../components/react/BookingCalendar";
+
+const error = Astro.url.searchParams.get('error');
 ---
 
 <BaseLayout
@@ -15,6 +17,18 @@ import BookingCalendar from "../components/react/BookingCalendar";
     <div
       class="container mx-auto px-6 max-w-5xl relative z-10 w-full flex-grow flex flex-col items-center justify-center"
     >
+      {error === 'pago_rechazado' && (
+        <div class="w-full max-w-3xl mb-6 bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-2xl flex items-center gap-4 animate-in fade-in slide-in-from-top-4 shadow-sm">
+          <svg class="w-8 h-8 text-red-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+          <div>
+            <p class="font-bold text-red-800 text-lg">Pago Rechazado o Anulado</p>
+            <p class="text-sm mt-0.5">Tu reserva no se pudo confirmar. Por favor, selecciona la fecha nuevamente e intenta con otro método de pago.</p>
+          </div>
+        </div>
+      )}
+
       <div class="text-center mb-10 mt-8">
         <h1
           class="text-3xl md:text-5xl font-semibold text-foreground mb-4 tracking-tight"
