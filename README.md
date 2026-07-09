@@ -20,7 +20,6 @@
   [![Vercel](https://img.shields.io/badge/🔴_VER_DEMO_EN_VERCEL-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://TU-LINK-REAL-DE-VERCEL.vercel.app)
 
   <br />
-  <br />
 
 ## Arquitectura y Tech Stack
 
