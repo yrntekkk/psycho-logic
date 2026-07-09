@@ -1,17 +1,27 @@
-# 🧠 Psychologic - Sistema de Agendamiento Clínico
+<div align="center">
+  <h1>🧠 PSYCHOLOGIC</h1>
+  <p><strong>Sistema de Agendamiento Clínico Customizado & Automatizado</strong></p>
+  
+  ![Astro](https://img.shields.io/badge/Astro-0C1120?style=for-the-badge&logo=astro&logoColor=white)
+  ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+  ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+  ![Google Calendar API](https://img.shields.io/badge/Google_Calendar-4285F4?style=for-the-badge&logo=google-calendar&logoColor=white)
+</div>
 
-Plataforma web personalizada para agendamiento de consultas psicológicas. Construida con Astro, cuenta con un flujo de reserva customizado, integración de pagos con Webpay (vía Flow.cl) y sincronización automatizada con Google Calendar y Google Meet.
+---
 
-## 🚀 Tecnologías Principales
+> **No más iframes genéricos ni mensualidades.** Esta plataforma web fue construida desde cero para gestionar reservas de consultas psicológicas con un flujo de usuario impecable. Integra pagos directos vía Webpay y automatiza la creación de citas y enlaces de videollamada sin intervención manual. 🚀
 
-*   **Framework:** [Astro](https://astro.build)
-*   **Estilos:** Tailwind CSS (Glassmorphism UI)
-*   **Pasarela de Pagos:** API de [Flow.cl](https://www.flow.cl) (Webpay Plus)
-*   **Automatización:** Google Calendar API (Service Account)
+## ⚡ Arquitectura y Tech Stack
 
-## 📁 Estructura del Proyecto
+*   🌌 **Frontend SSR:** Construido con [Astro](https://astro.build/) para máxima velocidad.
+*   🎨 **UI/UX:** Diseño interactivo con *Glassmorphism* usando Tailwind CSS.
+*   💸 **Pasarela de Pagos:** Integración nativa con la API REST de [Flow.cl](https://www.flow.cl).
+*   📅 **Automatización Core:** Google Calendar API (vía Service Account) para agendamiento y creación de Google Meet.
 
-Dentro de este proyecto de Astro, encontrarás la siguiente estructura clave:
+## 📁 Estructura del Código
+
+La magia ocurre en estos directorios principales:
 
 ```text
 /
@@ -19,14 +29,13 @@ Dentro de este proyecto de Astro, encontrarás la siguiente estructura clave:
 │   └── favicon.svg
 ├── src/
 │   ├── components/
-│   │   └── BookingCalendar.astro   # UI del calendario y formulario de paciente
+│   │   └── BookingCalendar.astro   # UI del calendario y lógica de estado del paciente
 │   ├── layouts/
-│   │   └── Layout.astro            # Plantilla base y metadatos
+│   │   └── Layout.astro            # Wrapper global
 │   └── pages/
-│       ├── index.astro             # Landing page / Home
-│       ├── agendar.astro           # Página principal de reserva
+│       ├── agendar.astro           # Vista principal de reservas
 │       └── api/
-│           ├── crear-pago.ts       # Endpoint POST: Conecta con API Flow Sandbox/Prod
-│           └── confirmar.ts        # Endpoint Webhook: Valida pago y crea evento en G. Calendar
-├── .env                            # Variables de entorno (NO subir a GitHub)
+│           ├── crear-pago.ts       # POST: Firma de datos y conexión con API Flow
+│           └── confirmar.ts        # GET/POST (Webhook): Validación, G. Calendar y Meet
+├── .env                            # Keys de seguridad (Ignorado en git)
 └── package.json
