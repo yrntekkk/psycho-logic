@@ -15,12 +15,12 @@
 <img width="1853" height="969" alt="image" src="https://github.com/user-attachments/assets/15dff421-ceae-4c13-bc9e-bc2fd3997e02" />
 
 
-## ⚡ Arquitectura y Tech Stack
+## Arquitectura y Tech Stack
 
-*   🌌 **Frontend SSR:** Construido con Astro para máxima velocidad.
-*   🎨 **UI/UX:** Diseño interactivo con *Glassmorphism* usando Tailwind CSS.
-*   💸 **Pasarela de Pagos:** Integración nativa con la API REST de Flow.cl.
-*   📅 **Automatización Core:** Google Calendar API (vía Service Account) para agendamiento y creación de Google Meet.
+*   **Frontend SSR:** Construido con Astro para máxima velocidad.
+*   **UI/UX:** Diseño interactivo con *Glassmorphism* usando Tailwind CSS.
+*   **Pasarela de Pagos:** Integración nativa con la API REST de Flow.cl.
+*   **Automatización Core:** Google Calendar API (vía Service Account) para agendamiento y creación de Google Meet.
 
 ## 📁 Estructura del Código
 
@@ -59,7 +59,7 @@ GOOGLE_CLIENT_EMAIL=tu-service-account@tu-proyecto.iam.gserviceaccount.com
 GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nTU_LLAVE_AQUI\n-----END PRIVATE KEY-----\n"
 ```
 
-## 🛠️ Despliegue Local
+## Despliegue Local
 
 Clona el repo, instala las dependencias y levanta el servidor:
 
