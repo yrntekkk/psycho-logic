@@ -1,31 +1,53 @@
 @import "tailwindcss";
 
 @theme {
-  /* Fondos cálidos y textos suaves */
-  --color-background: #FAFAFA; /* Equivalente a un zinc-50/hueso */
-  --color-foreground: #27272A; /* zinc-800, más suave que el negro puro */
+  /* Fondo Cálido (Arena / Crema) */
+  --color-background: #FDFBF7; 
+  --color-foreground: #3D3835; /* Gris cálido casi marrón para suavizar el contraste */
   
-  /* Acentos calmos (Sage / Emerald suave) */
-  --color-primary: #10B981; /* Verde esmeralda que da confianza */
+  /* Acentos: Verde Salvia Profundo (Primary) */
+  --color-primary: #52796F; 
   --color-primary-foreground: #FFFFFF;
-  --color-primary-hover: #059669;
+  --color-primary-hover: #406058;
   
-  --color-sage-50: #F4F7F5;
-  --color-sage-100: #E6EFE9;
-  --color-sage-200: #CDE0D5;
-
-  /* Bordes suaves */
-  --radius-2xl: 1rem;
-  --radius-3xl: 1.5rem;
-
-  /* Clases personalizadas para el Glassmorfismo */
-  --background-image-glass-gradient: linear-gradient(to bottom right, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1));
-  --shadow-glass: 0 4px 30px rgba(0, 0, 0, 0.05);
+  /* Tonos extra (opcionalmente utilizables en Tailwind) */
+  --color-sage-50: #F6F8F7;
+  --color-sage-100: #E9ECEB;
+  --color-sage-200: #CAD2D0;
+  
+  /* Color Terracota (para detalles y calidez extra) */
+  --color-terracotta: #D97757;
 }
 
 @layer base {
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    background: transparent;
   }
+}
+
+/* Fondo Fijo: Calidez Terrosa */
+.bg-mesh-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -20;
+  /* Gradiente base arena suave */
+  background: radial-gradient(circle at top left, #FFFFFF 0%, #F5F0E6 70%, #EAE0D3 100%);
+}
+
+.bg-mesh-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Puntos de luz fijos: Terracota muy sutil arriba a la derecha, Verde Salvia abajo a la izquierda */
+  background: radial-gradient(circle at 80% 20%, rgba(217, 119, 87, 0.06) 0%, transparent 50%),
+              radial-gradient(circle at 20% 80%, rgba(82, 121, 111, 0.08) 0%, transparent 50%);
+  z-index: -19;
 }
