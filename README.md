@@ -10,7 +10,7 @@
 
 ---
 
-> **No más iframes genéricos ni mensualidades.** Esta plataforma web fue construida desde cero para gestionar reservas de consultas psicológicas con un flujo de usuario impecable. Integra pagos directos vía Webpay y automatiza la creación de citas y enlaces de videollamada sin intervención manual. 🚀
+>  Esta plataforma web fue construida desde cero para gestionar reservas de consultas psicológicas con un flujo de usuario impecable. Integra pagos directos vía Webpay y automatiza la creación de citas y enlaces de videollamada sin intervención manual. 🚀
 
 <img width="1853" height="969" alt="image" src="https://github.com/user-attachments/assets/15dff421-ceae-4c13-bc9e-bc2fd3997e02" />
 
