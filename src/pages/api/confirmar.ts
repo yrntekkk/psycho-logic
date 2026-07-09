@@ -37,11 +37,16 @@ export const POST: APIRoute = async ({ request }) => {
       let startDateTime = '';
       let name = 'Paciente';
       try {
-        const optionalData = JSON.parse(flowData.optional || '{}');
+        let optionalData: any = {};
+        if (typeof flowData.optional === 'string') {
+          optionalData = JSON.parse(flowData.optional || '{}');
+        } else if (typeof flowData.optional === 'object' && flowData.optional !== null) {
+          optionalData = flowData.optional;
+        }
         startDateTime = optionalData.startDateTime;
         name = optionalData.name || 'Paciente';
       } catch (e) {
-        console.error('Error parseando optionalData:', e);
+        console.error('Error procesando optionalData:', e);
       }
       
       const email = flowData.payer; 
