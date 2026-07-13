@@ -28,9 +28,9 @@
 *   **Pasarela de Pagos:** Integración nativa con la API REST de Flow.cl.
 *   **Automatización Core:** Google Calendar API (vía Service Account) para agendamiento y creación de Google Meet.
 
-## 📁 Estructura del Código
+## Estructura del Código
 
-La magia ocurre en estos directorios principales:
+La arquitectura de carpetas de nuestro proyecto:
 
 ```text
 /
@@ -50,7 +50,7 @@ La magia ocurre en estos directorios principales:
 └── package.json
 ```
 
-## 🔐 Configuración de Entorno (.env)
+## Configuración de Entorno (.env)
 
 El sistema requiere llaves criptográficas para funcionar. Crea tu archivo `.env` en la raíz del proyecto. 
 
