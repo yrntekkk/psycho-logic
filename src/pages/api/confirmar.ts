@@ -67,6 +67,18 @@ export const POST: APIRoute = async ({ request }) => {
         }
       }
 
+      let meetLink = 'Enlace de Meet pendiente (hubo un error al generarlo)';
+      let formattedDate = 'Fecha pendiente';
+      
+      if (startDateTime) {
+        const startDate = new Date(startDateTime);
+        const options: Intl.DateTimeFormatOptions = { 
+          weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', 
+          hour: '2-digit', minute: '2-digit', timeZone: 'America/Santiago' 
+        };
+        formattedDate = startDate.toLocaleDateString('es-CL', options);
+      }
+
       if (!GOOGLE_CLIENT_EMAIL || !GOOGLE_PRIVATE_KEY || !GOOGLE_CALENDAR_ID) {
         console.error('Credenciales de Google incompletas. Pago procesado pero calendario no actualizado.');
       } else if (startDateTime) {
@@ -104,62 +116,68 @@ export const POST: APIRoute = async ({ request }) => {
           });
           console.log('Evento de Google Calendar creado con éxito.');
 
-          const meetLink = event.data.hangoutLink || 'Enlace no disponible';
-          
-          // Formatear fecha para el correo
-          const options: Intl.DateTimeFormatOptions = { 
-            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', 
-            hour: '2-digit', minute: '2-digit', timeZone: 'America/Santiago' 
-          };
-          const formattedDate = startDate.toLocaleDateString('es-CL', options);
-
-          const RESEND_API_KEY = import.meta.env.RESEND_API_KEY || process.env.RESEND_API_KEY;
-          const ADMIN_EMAIL = import.meta.env.ADMIN_EMAIL || process.env.ADMIN_EMAIL || 'tucorreo@ejemplo.com';
-          
-          if (RESEND_API_KEY) {
-            const { Resend } = await import('resend');
-            const resend = new Resend(RESEND_API_KEY);
-            
-            // Correo al Cliente
-            await resend.emails.send({
-              from: 'Reservas <onboarding@resend.dev>',
-              to: email,
-              subject: 'Confirmación de Sesión Psicológica y Pago Exitoso',
-              html: `
-                <h2>¡Hola ${name}!</h2>
-                <p>Tu pago ha sido confirmado con éxito y tu sesión está reservada.</p>
-                <ul>
-                  <li><strong>Fecha y Hora:</strong> ${formattedDate}</li>
-                  <li><strong>Enlace de Google Meet:</strong> <a href="${meetLink}">${meetLink}</a></li>
-                </ul>
-                <p>Por favor, conéctate puntual al enlace a la hora indicada. ¡Nos vemos en la sesión!</p>
-              `
-            });
-
-            // Correo al Administrador
-            await resend.emails.send({
-              from: 'Sistema de Reservas <onboarding@resend.dev>',
-              to: ADMIN_EMAIL,
-              subject: `Nueva Reserva Confirmada - ${name}`,
-              html: `
-                <h2>Nueva reserva confirmada</h2>
-                <p>El paciente <strong>${name}</strong> (Correo: ${email}) ha realizado el pago y agendado una sesión.</p>
-                <ul>
-                  <li><strong>Fecha y Hora:</strong> ${formattedDate}</li>
-                  <li><strong>Enlace de Google Meet:</strong> <a href="${meetLink}">${meetLink}</a></li>
-                  <li><strong>Orden de Pago:</strong> ${flowData.commerceOrder}</li>
-                </ul>
-              `
-            });
-            console.log('Correos de confirmación enviados exitosamente.');
-          } else {
-            console.log('RESEND_API_KEY no configurada. Correos no enviados.');
+          if (event.data.hangoutLink) {
+            meetLink = event.data.hangoutLink;
           }
 
         } catch (calendarError) {
-          console.error('Error al crear evento en Google Calendar o enviar correos:', calendarError);
-          // Importante: No lanzamos el error para que Flow reciba el status 200 OK
+          console.error('Error al crear evento en Google Calendar:', calendarError);
         }
+      }
+
+      // 3. Enviar Correos con Nodemailer (Independiente de Google Calendar)
+      const GMAIL_USER = import.meta.env.GMAIL_USER || process.env.GMAIL_USER;
+      const GMAIL_PASS = import.meta.env.GMAIL_PASS || process.env.GMAIL_PASS;
+      const ADMIN_EMAIL = import.meta.env.ADMIN_EMAIL || process.env.ADMIN_EMAIL || 'tucorreo@ejemplo.com';
+
+      if (GMAIL_USER && GMAIL_PASS) {
+        try {
+          const nodemailer = await import('nodemailer');
+          const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+              user: GMAIL_USER,
+              pass: GMAIL_PASS,
+            },
+          });
+          
+          // Correo al Cliente
+          await transporter.sendMail({
+            from: `"Reservas Psycho-Logic" <${GMAIL_USER}>`,
+            to: email,
+            subject: 'Confirmación de Sesión Psicológica y Pago Exitoso',
+            html: `
+              <h2>¡Hola ${name}!</h2>
+              <p>Tu pago ha sido confirmado con éxito y tu sesión está reservada.</p>
+              <ul>
+                <li><strong>Fecha y Hora:</strong> ${formattedDate}</li>
+                <li><strong>Enlace de Google Meet:</strong> <a href="${meetLink}">${meetLink}</a></li>
+              </ul>
+              <p>Por favor, conéctate puntual al enlace a la hora indicada. ¡Nos vemos en la sesión!</p>
+            `
+          });
+
+          // Correo al Administrador
+          await transporter.sendMail({
+            from: `"Sistema de Reservas" <${GMAIL_USER}>`,
+            to: ADMIN_EMAIL,
+            subject: `Nueva Reserva Confirmada - ${name}`,
+            html: `
+              <h2>Nueva reserva confirmada</h2>
+              <p>El paciente <strong>${name}</strong> (Correo: ${email}) ha realizado el pago y agendado una sesión.</p>
+              <ul>
+                <li><strong>Fecha y Hora:</strong> ${formattedDate}</li>
+                <li><strong>Enlace de Google Meet:</strong> <a href="${meetLink}">${meetLink}</a></li>
+                <li><strong>Orden de Pago:</strong> ${flowData.commerceOrder}</li>
+              </ul>
+            `
+          });
+          console.log('Correos de confirmación enviados exitosamente con Nodemailer.');
+        } catch (emailError) {
+          console.error('Error enviando correos con Nodemailer:', emailError);
+        }
+      } else {
+        console.log('GMAIL_USER o GMAIL_PASS no configurados. Correos no enviados.');
       }
     }
 
