@@ -8,7 +8,9 @@ export const POST: APIRoute = async ({ request }) => {
     const FLOW_API_URL = import.meta.env.FLOW_API_URL || process.env.FLOW_API_URL;
     const FLOW_API_KEY = import.meta.env.FLOW_API_KEY || process.env.FLOW_API_KEY;
     const FLOW_SECRET_KEY = import.meta.env.FLOW_SECRET_KEY || process.env.FLOW_SECRET_KEY;
-    const PUBLIC_SITE_URL = import.meta.env.PUBLIC_SITE_URL || process.env.PUBLIC_SITE_URL || 'http://localhost:4321';
+    
+    // Obtener dinámicamente la URL base en la que está corriendo la página (localhost o vercel)
+    const PUBLIC_SITE_URL = new URL(request.url).origin;
 
     if (!FLOW_API_URL || !FLOW_API_KEY || !FLOW_SECRET_KEY) {
       return new Response(JSON.stringify({ error: 'Configuración de Flow incompleta' }), { status: 500 });
