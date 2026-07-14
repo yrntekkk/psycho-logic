@@ -25,7 +25,7 @@ export const POST: APIRoute = async ({ request }) => {
     const keys = Array.from(params.keys()).sort();
     let stringToSign = '';
     keys.forEach(key => { stringToSign += key + params.get(key); });
-    
+
     const signature = crypto.createHmac('sha256', FLOW_SECRET_KEY).update(stringToSign).digest('hex');
     params.append('s', signature);
 
@@ -48,8 +48,8 @@ export const POST: APIRoute = async ({ request }) => {
       } catch (e) {
         console.error('Error procesando optionalData:', e);
       }
-      
-      const email = flowData.payer; 
+
+      const email = flowData.payer;
 
       // 2. Integrar con Google Calendar
       let GOOGLE_CLIENT_EMAIL = import.meta.env.GOOGLE_CLIENT_EMAIL || process.env.GOOGLE_CLIENT_EMAIL;
@@ -69,12 +69,12 @@ export const POST: APIRoute = async ({ request }) => {
 
       let meetLink = 'Enlace de Meet pendiente (hubo un error al generarlo)';
       let formattedDate = 'Fecha pendiente';
-      
+
       if (startDateTime) {
         const startDate = new Date(startDateTime);
-        const options: Intl.DateTimeFormatOptions = { 
-          weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', 
-          hour: '2-digit', minute: '2-digit', timeZone: 'America/Santiago' 
+        const options: Intl.DateTimeFormatOptions = {
+          weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+          hour: '2-digit', minute: '2-digit', timeZone: 'America/Santiago'
         };
         formattedDate = startDate.toLocaleDateString('es-CL', options);
       }
@@ -128,7 +128,7 @@ export const POST: APIRoute = async ({ request }) => {
       // 3. Enviar Correos con Nodemailer (Independiente de Google Calendar)
       const GMAIL_USER = import.meta.env.GMAIL_USER || process.env.GMAIL_USER;
       const GMAIL_PASS = import.meta.env.GMAIL_PASS || process.env.GMAIL_PASS;
-      const ADMIN_EMAIL = import.meta.env.ADMIN_EMAIL || process.env.ADMIN_EMAIL || 'tucorreo@ejemplo.com';
+      const ADMIN_EMAIL = import.meta.env.ADMIN_EMAIL || process.env.ADMIN_EMAIL || 'matigoth@gmail.com';
 
       if (GMAIL_USER && GMAIL_PASS) {
         try {
@@ -140,7 +140,7 @@ export const POST: APIRoute = async ({ request }) => {
               pass: GMAIL_PASS,
             },
           });
-          
+
           // Correo al Cliente
           await transporter.sendMail({
             from: `"Reservas Psycho-Logic" <${GMAIL_USER}>`,
