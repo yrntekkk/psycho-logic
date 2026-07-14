@@ -52,9 +52,20 @@ export const POST: APIRoute = async ({ request }) => {
       const email = flowData.payer; 
 
       // 2. Integrar con Google Calendar
-      const GOOGLE_CLIENT_EMAIL = import.meta.env.GOOGLE_CLIENT_EMAIL || process.env.GOOGLE_CLIENT_EMAIL;
-      const GOOGLE_PRIVATE_KEY = (import.meta.env.GOOGLE_PRIVATE_KEY || process.env.GOOGLE_PRIVATE_KEY || '').replace(/\\n/g, '\n');
+      let GOOGLE_CLIENT_EMAIL = import.meta.env.GOOGLE_CLIENT_EMAIL || process.env.GOOGLE_CLIENT_EMAIL;
+      let GOOGLE_PRIVATE_KEY = (import.meta.env.GOOGLE_PRIVATE_KEY || process.env.GOOGLE_PRIVATE_KEY || '').replace(/\\n/g, '\n');
       const GOOGLE_CALENDAR_ID = import.meta.env.GOOGLE_CALENDAR_ID || process.env.GOOGLE_CALENDAR_ID;
+      const GOOGLE_SERVICE_ACCOUNT_JSON = import.meta.env.GOOGLE_SERVICE_ACCOUNT_JSON || process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
+
+      if (GOOGLE_SERVICE_ACCOUNT_JSON) {
+        try {
+          const creds = JSON.parse(GOOGLE_SERVICE_ACCOUNT_JSON);
+          GOOGLE_CLIENT_EMAIL = creds.client_email;
+          GOOGLE_PRIVATE_KEY = creds.private_key;
+        } catch (e) {
+          console.error('Error parseando GOOGLE_SERVICE_ACCOUNT_JSON:', e);
+        }
+      }
 
       if (!GOOGLE_CLIENT_EMAIL || !GOOGLE_PRIVATE_KEY || !GOOGLE_CALENDAR_ID) {
         console.error('Credenciales de Google incompletas. Pago procesado pero calendario no actualizado.');
