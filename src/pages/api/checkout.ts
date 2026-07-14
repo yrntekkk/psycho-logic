@@ -32,6 +32,11 @@ export const POST: APIRoute = async ({ request }) => {
       optional: optionalData,
     });
 
+    console.log("=== DEBUG FLOW ===");
+    console.log("PUBLIC_SITE_URL detectado:", PUBLIC_SITE_URL);
+    console.log("URL de Confirmacion enviada a Flow:", `${PUBLIC_SITE_URL}/api/confirmar`);
+    console.log("==================");
+
     // Ordenar alfabéticamente para la firma
     const keys = Array.from(params.keys()).sort();
     let stringToSign = '';
