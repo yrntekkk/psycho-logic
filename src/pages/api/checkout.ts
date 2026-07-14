@@ -9,8 +9,10 @@ export const POST: APIRoute = async ({ request }) => {
     const FLOW_API_KEY = import.meta.env.FLOW_API_KEY || process.env.FLOW_API_KEY;
     const FLOW_SECRET_KEY = import.meta.env.FLOW_SECRET_KEY || process.env.FLOW_SECRET_KEY;
     
-    // Obtener dinámicamente la URL base en la que está corriendo la página (localhost o vercel)
-    const PUBLIC_SITE_URL = new URL(request.url).origin;
+    // Obtener dinámicamente la URL base, confiando en los headers de Vercel
+    const host = request.headers.get('x-forwarded-host') || new URL(request.url).host;
+    const protocol = request.headers.get('x-forwarded-proto') || new URL(request.url).protocol.replace(':', '');
+    const PUBLIC_SITE_URL = `${protocol}://${host}`;
 
     if (!FLOW_API_URL || !FLOW_API_KEY || !FLOW_SECRET_KEY) {
       return new Response(JSON.stringify({ error: 'Configuración de Flow incompleta' }), { status: 500 });
