@@ -125,26 +125,20 @@ export const POST: APIRoute = async ({ request }) => {
         }
       }
 
-      // 3. Enviar Correos con Nodemailer (Independiente de Google Calendar)
-      const GMAIL_USER = import.meta.env.GMAIL_USER || process.env.GMAIL_USER;
-      const GMAIL_PASS = import.meta.env.GMAIL_PASS || process.env.GMAIL_PASS;
+      // 3. Enviar Correos con Resend (Independiente de Google Calendar)
+      const RESEND_API_KEY = import.meta.env.RESEND_API_KEY || process.env.RESEND_API_KEY;
+      const SENDER_EMAIL = import.meta.env.SENDER_EMAIL || process.env.SENDER_EMAIL || 'onboarding@resend.dev';
       const ADMIN_EMAIL = import.meta.env.ADMIN_EMAIL || process.env.ADMIN_EMAIL || 'matigoth@gmail.com';
 
-      if (GMAIL_USER && GMAIL_PASS) {
+      if (RESEND_API_KEY) {
         try {
-          const nodemailer = await import('nodemailer');
-          const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-              user: GMAIL_USER,
-              pass: GMAIL_PASS,
-            },
-          });
+          const { Resend } = await import('resend');
+          const resend = new Resend(RESEND_API_KEY);
 
           // Correo al Cliente
-          await transporter.sendMail({
-            from: `"Reservas Psycho-Logic" <${GMAIL_USER}>`,
-            to: email,
+          const { error: clientError } = await resend.emails.send({
+            from: `"Reservas Psycho-Logic" <${SENDER_EMAIL}>`,
+            to: [email],
             subject: 'Confirmación de Sesión Psicológica y Pago Exitoso',
             html: `
               <h2>¡Hola ${name}!</h2>
@@ -157,10 +151,14 @@ export const POST: APIRoute = async ({ request }) => {
             `
           });
 
+          if (clientError) {
+             console.error('Error de Resend enviando correo al cliente:', clientError);
+          }
+
           // Correo al Administrador
-          await transporter.sendMail({
-            from: `"Sistema de Reservas" <${GMAIL_USER}>`,
-            to: ADMIN_EMAIL,
+          const { error: adminError } = await resend.emails.send({
+            from: `"Sistema de Reservas" <${SENDER_EMAIL}>`,
+            to: [ADMIN_EMAIL],
             subject: `Nueva Reserva Confirmada - ${name}`,
             html: `
               <h2>Nueva reserva confirmada</h2>
@@ -172,12 +170,17 @@ export const POST: APIRoute = async ({ request }) => {
               </ul>
             `
           });
-          console.log('Correos de confirmación enviados exitosamente con Nodemailer.');
+
+          if (adminError) {
+             console.error('Error de Resend enviando correo al administrador:', adminError);
+          } else if (!clientError) {
+             console.log('Correos de confirmación enviados exitosamente con Resend.');
+          }
         } catch (emailError) {
-          console.error('Error enviando correos con Nodemailer:', emailError);
+          console.error('Error general enviando correos con Resend:', emailError);
         }
       } else {
-        console.log('GMAIL_USER o GMAIL_PASS no configurados. Correos no enviados.');
+        console.log('RESEND_API_KEY no configurada. Correos no enviados.');
       }
     }
 
