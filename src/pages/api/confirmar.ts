@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 import { google } from 'googleapis';
 
 export const POST: APIRoute = async ({ request }) => {
@@ -83,12 +83,11 @@ export const POST: APIRoute = async ({ request }) => {
         console.error('Credenciales de Google incompletas. Pago procesado pero calendario no actualizado.');
       } else if (startDateTime) {
         try {
-          const jwtClient = new google.auth.JWT(
-            GOOGLE_CLIENT_EMAIL,
-            undefined,
-            GOOGLE_PRIVATE_KEY,
-            ['https://www.googleapis.com/auth/calendar.events']
-          );
+          const jwtClient = new google.auth.JWT({
+            email: GOOGLE_CLIENT_EMAIL,
+            key: GOOGLE_PRIVATE_KEY,
+            scopes: ['https://www.googleapis.com/auth/calendar.events']
+          });
 
           const calendar = google.calendar({ version: 'v3', auth: jwtClient });
 
